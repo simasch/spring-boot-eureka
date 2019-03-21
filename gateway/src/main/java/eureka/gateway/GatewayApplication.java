@@ -22,12 +22,10 @@ public class GatewayApplication {
 
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder, DiscoveryClient discoveryClient) {
-        List<ServiceInstance> instances = discoveryClient.getInstances("master");
-        ServiceInstance master = instances.get(0);
         return builder.routes()
                 .route("eurea-server",
                         r -> r.path("/**")
-                                .uri(master.getUri()))
+                                .uri("lb://MASTER"))
                 .build();
     }
 
